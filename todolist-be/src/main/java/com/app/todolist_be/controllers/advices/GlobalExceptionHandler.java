@@ -1,6 +1,7 @@
 package com.app.todolist_be.controllers.advices;
 
 import com.app.todolist_be.dtos.GeneralResponse;
+import com.app.todolist_be.handlers.DataExistException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,6 +23,13 @@ public class GlobalExceptionHandler {
                 .stream().map(FieldError::getDefaultMessage).collect(Collectors.toList());
         return new ResponseEntity<>(mappingError(HttpStatus.BAD_REQUEST.value(), HttpStatus.BAD_REQUEST.getReasonPhrase(),
                 errorList), new HttpHeaders(), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(DataExistException.class)
+    public ResponseEntity<?> handleDataExistException(DataExistException ex) {
+        List<String> errorList = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(mappingError(HttpStatus.CONFLICT.value(), HttpStatus.CONFLICT.getReasonPhrase(),
+                errorList), new HttpHeaders(), HttpStatus.CONFLICT);
     }
 
     private GeneralResponse<?> mappingError(int respnseCode, String responseMessage, List<String> errorList) {
