@@ -1,6 +1,6 @@
 import { Box } from "@mui/material"
 
-export const Background = ({children}) => {
+const Background = ({children}) => {
     return (
         <>
             <Box
@@ -19,3 +19,5 @@ export const Background = ({children}) => {
         </>
     )
 }
+
+export default Background

@@ -1,5 +1,5 @@
 import { Box, Button, InputAdornment, TextField, Typography } from "@mui/material"
-import { Background } from "../components/Background"
+import  Background from "../components/Background"
 import { useState } from "react"
 import axios from "axios";
 import { CustomSnackbar } from "../components/CustomSnackbar";
