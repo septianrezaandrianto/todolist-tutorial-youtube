@@ -2,12 +2,17 @@ package com.app.todolist_be.services;
 
 import com.app.todolist_be.constants.AppConstant;
 import com.app.todolist_be.dtos.GeneralResponse;
+import com.app.todolist_be.dtos.PaginationRequest;
 import com.app.todolist_be.dtos.TodoDto;
 import com.app.todolist_be.entities.Todo;
 import com.app.todolist_be.handlers.DataExistException;
 import com.app.todolist_be.repositories.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +58,20 @@ public class TodoServiceImpl implements TodoService {
                 .data(savedTodo)
                 .build();
 
+    }
+
+    @Override
+    public GeneralResponse<?> getDataPaging(PaginationRequest paginationRequest) {
+        Sort sort = Sort.by(Sort.Order.asc("startDate"));
+        Pageable pageable = PageRequest.of(paginationRequest.getPageNumber(), paginationRequest.getPageSize(), sort);
+        Page<Todo> pageResult = todoRepository.findByWaNumber(paginationRequest.getWaNumber(), pageable);
+        return GeneralResponse.builder()
+                .responseCode(HttpStatus.OK.value())
+                .responseMessage(AppConstant.Response.SUCCESS_MESSAGE)
+                .data(pageResult.getContent())
+                .totalPage(pageResult.getTotalPages())
+                .totalData(pageResult.getTotalElements())
+                .build();
     }
 
     //HH:mm

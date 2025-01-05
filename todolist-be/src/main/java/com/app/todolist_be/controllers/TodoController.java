@@ -1,6 +1,7 @@
 package com.app.todolist_be.controllers;
 
 import com.app.todolist_be.dtos.GeneralResponse;
+import com.app.todolist_be.dtos.PaginationRequest;
 import com.app.todolist_be.dtos.TodoDto;
 import com.app.todolist_be.services.TodoService;
 import jakarta.validation.Valid;
@@ -21,5 +22,10 @@ public class TodoController {
     @PostMapping("/add")
     ResponseEntity<?> add(@Valid @RequestBody TodoDto todoDto) {
         return ResponseEntity.ok(todoService.add(todoDto));
+    }
+
+    @PostMapping("/paginate")
+    ResponseEntity<?> getDataPaging(@RequestBody PaginationRequest paginationRequest) {
+        return ResponseEntity.ok(todoService.getDataPaging(paginationRequest));
     }
 }
