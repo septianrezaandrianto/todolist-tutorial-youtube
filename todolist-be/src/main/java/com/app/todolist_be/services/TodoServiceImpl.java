@@ -7,6 +7,7 @@ import com.app.todolist_be.entities.Todo;
 import com.app.todolist_be.handlers.DataExistException;
 import com.app.todolist_be.repositories.TodoRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,6 +19,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class TodoServiceImpl implements TodoService {
 
     private final TodoRepository todoRepository;
@@ -25,10 +27,10 @@ public class TodoServiceImpl implements TodoService {
     @Override
     @Transactional
     public GeneralResponse<?> add(TodoDto todoDto) {
-
+        log.info("todoDto" + todoDto);
         Date startDate = constructDate(todoDto.getStartTime());
         Date endDate = constructDate(todoDto.getEndTime());
-        List<Todo> todoList = todoRepository.findByDate(startDate, endDate);
+        List<Todo> todoList = todoRepository.findByDate(startDate, endDate, todoDto.getWaNumber());
 
         if(!todoList.isEmpty()) {
             throw new DataExistException("Pada periode waktu ini, anda sudah mempunyai jadwal aktifitas");

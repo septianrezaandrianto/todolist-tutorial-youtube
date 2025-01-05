@@ -9,6 +9,7 @@ import { LocalizationProvider, TimePicker } from "@mui/x-date-pickers"
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs"
 import dayjs from "dayjs"
 import utc from 'dayjs/plugin/utc'
+import axios from "axios"
 
 export const Todo = () => {
     const [showDialog, setShowDialog] = useState(false)
@@ -75,9 +76,38 @@ export const Todo = () => {
         }, 1000);
     }
 
-    const handleAdd = () => {
-        console.log('Test panggil handle Add')
+    const handleAdd = async () => {
+        setLoading(true)
+        const payload = {
+            startTime: dayjs(startTime).format("HH:mm"),
+            endTime : dayjs(endTime).format("HH:mm"),
+            title : activity,
+            priority : priority,
+            waNumber : waNumber
+        }
+
+        try {
+            const response = await axios.post("http://localhost:8080/todo/add", payload);
+            setStartTime('')
+            setEndTime('')
+            setActivity('')
+            setPriority('')
+            setError('')
+            console.log("response", response)
+            snackbarMessage.current = "Sukses menambahkan aktifitas"
+        } catch (error) {
+            console.log('Error', error)
+            const errorList = error.response.data.errorList;
+            snackbarMessage.current = errorList.length > 1 ? `Error: ${errorList.join(',')}` : `Error: ${errorList[0]}`
+        } finally {
+            handleClose();
+            setTimeout(() => {
+                setLoading(false)
+                setShowSnackbar(true)
+            }, 1000);
+        }
     }
+    
 
     const handleApprove = () => {
         if (action.current === 'View') {

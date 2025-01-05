@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface TodoRepository extends MongoRepository<Todo, String> {
 
-    @Query("${startDate : ?0, endDate : ?1}")
-    List<Todo> findByDate(Date startDate, Date endDate);
+    @Query("{startDate : ?0, endDate : ?1, waNumber : ?2}")
+    List<Todo> findByDate(Date startDate, Date endDate, String waNumber);
 }
