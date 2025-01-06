@@ -99,6 +99,7 @@ export const Login = () => {
                     onChange={handleInputChange}
                     error={Boolean(error)}
                     helperText={error}
+                    autoComplete="off"
                 />
                 <Button
                     variant="contained"

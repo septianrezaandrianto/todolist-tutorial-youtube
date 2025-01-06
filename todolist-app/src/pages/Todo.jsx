@@ -10,6 +10,7 @@ import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs"
 import dayjs from "dayjs"
 import utc from 'dayjs/plugin/utc'
 import axios from "axios"
+import { TodoTable } from "./TodoTable"
 
 export const Todo = () => {
     const [showDialog, setShowDialog] = useState(false)
@@ -136,162 +137,174 @@ export const Todo = () => {
         return `${day}/${month}/${year}`
     }
     return(
-        <Background>
-            <Box
-                sx ={{
-                    backgroundColor : '#fff',
-                    padding : 4,
-                    borderRadius : 2,
-                    boxShadow : '0px 4px 10px rgba(0,0,0,0.1)',
-                    minWidth : '100px',
-                    textAlign : 'center',
-                    width : {xs : 'auto', sm : '400px'},
-                    height : 'auto'
-                }}
-            >
-                <Button
-                    variant="contained"
-                    sx = {{
-                        width : '0px',
-                        height : '40px',
-                        mt : -3,
-                        ml : {sm : 45, xs : 31},
-                        display : 'flex',
-                        justifyContent : 'center',
-                        alignItems : 'center',
-                        backgroundColor : '#006400',
-                        '&:hover' : {
-                            backgroundColor : '#004d00'
-                        }
+        <>
+            <Background>
+                <Box
+                    sx ={{
+                        backgroundColor : '#fff',
+                        padding : 4,
+                        borderRadius : 2,
+                        boxShadow : '0px 4px 10px rgba(0,0,0,0.1)',
+                        minWidth : '100px',
+                        textAlign : 'center',
+                        width : {xs : 'auto', sm : '400px'},
+                        height : 'auto'
                     }}
-                    onClick={() => {
-                        action.current = "View"
-                        setShowDialog(true)
-                        generateMessage()
-                    }}
-                    disabled={loading}
                 >
-                    <span
-                        className="material-icons"
-                        style={{
-                            fontSize : '24px',
-                            color: 'white'
-                        }}
-                    >
-                        logout
-                    </span>
-                </Button>
-
-                <Typography variant="h5" pb="50px">
-                    Daftar Aktifitasmu <br/> {getNowDate()}
-                </Typography>
-                {loading && (
-                    <Box
-                        sx = {{
-                            display : 'flex',
-                            justifyContent : 'center',
-                            mb : 2
-                        }}
-                    >
-                        <CircularProgress size={'200px'}/>
-                    </Box>    
-                )}
-
-                <Box sx={{display : loading ? 'none' : 'block'}}>
-                    <Box sx ={{mb : 2}}>
-                        <LocalizationProvider dateAdapter={AdapterDayjs}>
-                            <TimePicker 
-                                label = "Waktu Mulai"
-                                ampm={false}
-                                sx = {{
-                                    minWidth : '190px',
-                                    width : {xs : '300px', sm : '150px'},
-                                    pr : {xs : 0, sm : 2},
-                                    pb : {xs : 2, sm : 0}
-                                }}
-                                value={startTime ? dayjs(startTime) : null}
-                                onChange={handleStartTimeChange}
-                            />
-                            <TimePicker 
-                                label = "Waktu Selesai"
-                                ampm={false}
-                                sx = {{
-                                    minWidth : '190px',
-                                    width : {xs : '300px', sm : '150px'},
-                                }}
-                                value={endTime? dayjs(endTime) : null}
-                                onChange={handleEndTimeChange}
-                            />
-                        </LocalizationProvider>
-                        {error && (
-                            <FormHelperText error>{error}</FormHelperText>
-                        )}
-                    </Box>
-
-                    <TextField
-                        id="activity"
-                        label="Aktifitas"
-                        fullWidth
-                        autoComplete="off"
-                        sx={{mb : 2}}
-                        value={activity}
-                        onChange={handleActivityChange}
-                    />
-                    <FormControl sx={{minWidth : '100%'}}>
-                        <InputLabel id="priority-select-label">
-                            Prioritas
-                        </InputLabel>
-                        <Select
-                            labelId="priority-select-label"
-                            id="priority-select"
-                            label="Prioritas"
-                            value={priority}
-                            onChange={handlePriorityChange}
-                        >
-                            <MenuItem value=""><em>...</em></MenuItem>
-                            <MenuItem value={'High'}>Tinggi</MenuItem>
-                            <MenuItem value={'Medium'}>Sedang</MenuItem>
-                            <MenuItem value={'Low'}>Rendah</MenuItem>
-                        </Select>
-                    </FormControl>
                     <Button
                         variant="contained"
                         sx = {{
-                            width : '100%',
-                            mt:3
+                            width : '0px',
+                            height : '40px',
+                            mt : -3,
+                            ml : {sm : 45, xs : 31},
+                            display : 'flex',
+                            justifyContent : 'center',
+                            alignItems : 'center',
+                            backgroundColor : '#006400',
+                            '&:hover' : {
+                                backgroundColor : '#004d00'
+                            }
                         }}
-                        disabled={isButtonDisabled}
-                        onClick={handleOpen}
+                        onClick={() => {
+                            action.current = "View"
+                            setShowDialog(true)
+                            generateMessage()
+                        }}
+                        disabled={loading}
                     >
-                        Tambah
+                        <span
+                            className="material-icons"
+                            style={{
+                                fontSize : '24px',
+                                color: 'white'
+                            }}
+                        >
+                            logout
+                        </span>
                     </Button>
+
+                    <Typography variant="h5" pb="50px">
+                        Daftar Aktifitasmu <br/> {getNowDate()}
+                    </Typography>
+                    {loading && (
+                        <Box
+                            sx = {{
+                                display : 'flex',
+                                justifyContent : 'center',
+                                mb : 2
+                            }}
+                        >
+                            <CircularProgress size={'200px'}/>
+                        </Box>    
+                    )}
+
+                    <Box sx={{display : loading ? 'none' : 'block'}}>
+                        <Box sx ={{mb : 2}}>
+                            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                                <TimePicker 
+                                    label = "Waktu Mulai"
+                                    ampm={false}
+                                    sx = {{
+                                        minWidth : '190px',
+                                        width : {xs : '300px', sm : '150px'},
+                                        pr : {xs : 0, sm : 2},
+                                        pb : {xs : 2, sm : 0}
+                                    }}
+                                    value={startTime ? dayjs(startTime) : null}
+                                    onChange={handleStartTimeChange}
+                                />
+                                <TimePicker 
+                                    label = "Waktu Selesai"
+                                    ampm={false}
+                                    sx = {{
+                                        minWidth : '190px',
+                                        width : {xs : '300px', sm : '150px'},
+                                    }}
+                                    value={endTime? dayjs(endTime) : null}
+                                    onChange={handleEndTimeChange}
+                                />
+                            </LocalizationProvider>
+                            {error && (
+                                <FormHelperText error>{error}</FormHelperText>
+                            )}
+                        </Box>
+
+                        <TextField
+                            id="activity"
+                            label="Aktifitas"
+                            fullWidth
+                            autoComplete="off"
+                            sx={{mb : 2}}
+                            value={activity}
+                            onChange={handleActivityChange}
+                        />
+                        <FormControl sx={{minWidth : '100%'}}>
+                            <InputLabel id="priority-select-label">
+                                Prioritas
+                            </InputLabel>
+                            <Select
+                                labelId="priority-select-label"
+                                id="priority-select"
+                                label="Prioritas"
+                                value={priority}
+                                onChange={handlePriorityChange}
+                            >
+                                <MenuItem value=""><em>...</em></MenuItem>
+                                <MenuItem value={'High'}>Tinggi</MenuItem>
+                                <MenuItem value={'Medium'}>Sedang</MenuItem>
+                                <MenuItem value={'Low'}>Rendah</MenuItem>
+                            </Select>
+                        </FormControl>
+                        <Button
+                            variant="contained"
+                            sx = {{
+                                width : '100%',
+                                mt:3
+                            }}
+                            disabled={isButtonDisabled}
+                            onClick={handleOpen}
+                        >
+                            Tambah
+                        </Button>
+
+                    </Box>
 
                 </Box>
 
+                {showDialog && (
+                    <CustomDialog 
+                        handleOpen={handleOpen}
+                        handleClose={handleClose}
+                        handleApprove={handleApprove}
+                        title={message.current.title}
+                        description={message.current.description}
+                        loading={loading}
+                    />
+                )}
+
+                {showSnackbar && (
+                    <CustomSnackbar 
+                        handleClose={() => {
+                            setShowSnackbar(false)
+                        }}
+                        handleOpen={() => {
+                            setShowSnackbar(true)
+                        }}
+                        message={snackbarMessage.current}
+                    />
+                )}
+            </Background>
+            <Box
+                sx={{
+                    mt : {xs : -30, sm : -38}
+                }}
+            >
+                <Background>
+                    <TodoTable/>
+                </Background>
+
             </Box>
-
-            {showDialog && (
-                <CustomDialog 
-                    handleOpen={handleOpen}
-                    handleClose={handleClose}
-                    handleApprove={handleApprove}
-                    title={message.current.title}
-                    description={message.current.description}
-                    loading={loading}
-                />
-            )}
-
-            {showSnackbar && (
-                <CustomSnackbar 
-                    handleClose={() => {
-                        setShowSnackbar(false)
-                    }}
-                    handleOpen={() => {
-                        setShowSnackbar(true)
-                    }}
-                    message={snackbarMessage.current}
-                />
-            )}
-        </Background>
+        </>
     )
 }
