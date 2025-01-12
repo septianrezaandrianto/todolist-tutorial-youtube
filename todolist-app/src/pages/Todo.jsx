@@ -1,4 +1,4 @@
-import { act, useRef } from "react"
+import { act, useEffect, useRef } from "react"
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Box, Button, CircularProgress, FormControl, FormHelperText, InputLabel, MenuItem, Select, TextField, Typography } from "@mui/material"
@@ -136,6 +136,38 @@ export const Todo = () => {
         const year = today.getFullYear();
         return `${day}/${month}/${year}`
     }
+
+    const fetchDataList = async() => {
+        const payload = {
+            waNumber : localStorage.getItem("isAuthenticated"),
+            pageNumber : 0,
+            pageSize : 100
+        }
+
+        try {
+            const response = await axios.post(`http://localhost:8080/todo/paginate` , payload);
+            if (response.status == 200) {
+                const formattedData = response.data.data.map((item, index) => ({
+                    ...item,
+                    startTime : dayjs.utc(item.startDate).format('HH:mm'),
+                    endTime : dayjs.utc(item.endTime).format('HH:mm'),
+                    no : index + 1,
+                    priority : item.priority === 'High' ? 'Tinggi' : item.priority === 'Medium' ? 'Sedang' : 'Rendah',
+                    status : item.status === 'Created' ? 'Dibuat' : 'Selesai'
+                }))
+                console.log('response.data.data', response.data.data)
+                setDataList(formattedData)
+            }
+        } catch (error) {
+
+        }
+    }
+
+    useEffect(() => {
+        fetchDataList()
+    }, [])
+
+    console.log('dataList', dataList)
     return(
         <>
             <Background>
@@ -301,7 +333,10 @@ export const Todo = () => {
                 }}
             >
                 <Background>
-                    <TodoTable/>
+                    <TodoTable 
+                        dataList={dataList}
+                        loading={loading}
+                    />
                 </Background>
 
             </Box>
