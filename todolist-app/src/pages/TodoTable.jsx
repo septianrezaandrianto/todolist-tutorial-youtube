@@ -3,7 +3,11 @@ import { DataGrid } from "@mui/x-data-grid";
 
 export const TodoTable = ({
   dataList,
-  loading
+  loading,
+  setShowDialog,
+  action,
+  generateMessage,
+  setSelectedRow
 }) =>{
   const columns = [
     { field: 'no', headerName: 'No', width: 70, sortable : false, headerAlign : 'center', align : 'center'},
@@ -18,7 +22,7 @@ export const TodoTable = ({
             color = '#facd05';
             break;
           default:
-            color = '03ab22'
+            color = '#03ab22'
         }
         return (
           <span style={{color, fontWeight : 'bold'}}>{params.row.priority}</span>
@@ -30,7 +34,7 @@ export const TodoTable = ({
     { field: 'title', headerName: 'Aktifitas', width: 355, sortable : false, headerAlign : 'center', align : 'center'},
     { field: 'status', headerName: 'Status', width: 100, sortable : false, headerAlign : 'center', align : 'center'},
     { field: 'action', headerName: 'Aksi', width: 100, sortable : false, headerAlign : 'center', align : 'center',
-      renderCell: (params) => {
+      renderCell: (params) => (
         <Stack
           sx = {{
             pt:2,
@@ -83,13 +87,16 @@ export const TodoTable = ({
           )}
 
         </Stack>
-      }
+      )
     },
     
   ];
 
   const handleOpen = (rowData) => {
-
+    setShowDialog(true)
+    setSelectedRow(rowData)
+    action.current = "Delete"
+    generateMessage()
   }
 
   const handleOpenFinish = (rowData) => {

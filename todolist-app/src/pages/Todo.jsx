@@ -32,6 +32,7 @@ export const Todo = () => {
     const [priority, setPriority] = useState('')
     const [error, setError] = useState('')
     const [dataList, setDataList] = useState([])
+    const [selectedRow, setSelectedRow] = useState(null);
 
     const isButtonDisabled = !startTime || !endTime || !activity || !priority || error;
 
@@ -63,6 +64,9 @@ export const Todo = () => {
         } else if (action.current === 'Add') {
             message.current.title = "Melanjutkan proses Tambah"
             message.current.description = "Apakah anda yakin ingin menambahkan aktifitas tersebut?"
+        } else if (action.current === 'Delete') {
+            message.current.title = "Melanjukan Proses Hapus"
+            message.current.description = "Apakah anda yakin ingin menghapus aktifitas tersebut?"
         }
     }
 
@@ -105,6 +109,7 @@ export const Todo = () => {
             setTimeout(() => {
                 setLoading(false)
                 setShowSnackbar(true)
+                fetchDataList()
             }, 1000);
         }
     }
@@ -115,6 +120,8 @@ export const Todo = () => {
             handleLogout();
         } else if(action.current === 'Add') {
             handleAdd()
+        } else if (action.current === 'Delete') {
+            handleDelete(selectedRow);
         }
     }
 
@@ -166,6 +173,24 @@ export const Todo = () => {
     useEffect(() => {
         fetchDataList()
     }, [])
+
+    const handleDelete = async(rowData) => {
+        setLoading(true)
+        const { id } = rowData;
+        try {
+            await axios.delete(`http://localhost:8080/todo/delete/${id}`)
+            handleClose()
+            snackbarMessage.current = "Sukses menghapus aktifitas"
+        } catch ( error) {
+            console.error("error deleting todo : ", error) 
+        } finally {
+            setTimeout(() => {
+                setLoading(false)
+                setShowSnackbar(true)
+                fetchDataList()
+            }, 1000)
+        }
+    }
 
     console.log('dataList', dataList)
     return(
@@ -336,6 +361,10 @@ export const Todo = () => {
                     <TodoTable 
                         dataList={dataList}
                         loading={loading}
+                        setShowDialog={setShowDialog}
+                        action={action}
+                        generateMessage={generateMessage}
+                        setSelectedRow={setSelectedRow}
                     />
                 </Background>
 
