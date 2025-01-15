@@ -6,6 +6,7 @@ import com.app.todolist_be.dtos.PaginationRequest;
 import com.app.todolist_be.dtos.TodoDto;
 import com.app.todolist_be.entities.Todo;
 import com.app.todolist_be.handlers.DataExistException;
+import com.app.todolist_be.handlers.NotFoundException;
 import com.app.todolist_be.repositories.TodoRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +22,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -71,6 +73,20 @@ public class TodoServiceImpl implements TodoService {
                 .data(pageResult.getContent())
                 .totalPage(pageResult.getTotalPages())
                 .totalData(pageResult.getTotalElements())
+                .build();
+    }
+
+    @Override
+    @Transactional
+    public GeneralResponse<?> delete(String id) {
+        Optional<Todo> existTodo = todoRepository.findById(id);
+        if (existTodo.isEmpty()) {
+            throw new NotFoundException("Data tidak ditemukan");
+        }
+        todoRepository.delete(existTodo.get());
+        return GeneralResponse.builder()
+                .responseCode(HttpStatus.OK.value())
+                .responseMessage(AppConstant.Response.SUCCESS_MESSAGE)
                 .build();
     }
 

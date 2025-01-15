@@ -8,4 +8,5 @@ public interface TodoService {
 
     GeneralResponse<?> add(TodoDto todoDto);
     GeneralResponse<?> getDataPaging(PaginationRequest paginationRequest);
+    GeneralResponse<?> delete(String id);
 }

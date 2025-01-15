@@ -2,6 +2,7 @@ package com.app.todolist_be.controllers.advices;
 
 import com.app.todolist_be.dtos.GeneralResponse;
 import com.app.todolist_be.handlers.DataExistException;
+import com.app.todolist_be.handlers.NotFoundException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,13 @@ public class GlobalExceptionHandler {
         List<String> errorList = Collections.singletonList(ex.getMessage());
         return new ResponseEntity<>(mappingError(HttpStatus.CONFLICT.value(), HttpStatus.CONFLICT.getReasonPhrase(),
                 errorList), new HttpHeaders(), HttpStatus.CONFLICT);
+    }
+
+    @ExceptionHandler(NotFoundException.class)
+    public ResponseEntity<?> handleNotFoundException(NotFoundException ex) {
+        List<String> errorList = Collections.singletonList(ex.getMessage());
+        return new ResponseEntity<>(mappingError(HttpStatus.NOT_FOUND.value(), HttpStatus.NOT_FOUND.getReasonPhrase(),
+                errorList), new HttpHeaders(), HttpStatus.NOT_FOUND);
     }
 
     private GeneralResponse<?> mappingError(int respnseCode, String responseMessage, List<String> errorList) {

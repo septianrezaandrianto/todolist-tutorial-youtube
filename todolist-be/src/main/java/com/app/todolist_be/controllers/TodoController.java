@@ -7,10 +7,7 @@ import com.app.todolist_be.services.TodoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/todo")
@@ -27,5 +24,10 @@ public class TodoController {
     @PostMapping("/paginate")
     ResponseEntity<?> getDataPaging(@RequestBody PaginationRequest paginationRequest) {
         return ResponseEntity.ok(todoService.getDataPaging(paginationRequest));
+    }
+
+    @DeleteMapping("/delete/{id}")
+    ResponseEntity<?> delete(@PathVariable(name = "id")String id) {
+        return ResponseEntity.ok(todoService.delete(id));
     }
 }
