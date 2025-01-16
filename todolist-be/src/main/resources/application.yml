@@ -6,3 +6,8 @@ spring:
       host: localhost
       port: 27017
       database : todolist-db
+
+
+wa :
+  token : "Isi dengan token yang kamu dapatkan dari fonnte"
+  url : "https://api.fonnte.com/send"
