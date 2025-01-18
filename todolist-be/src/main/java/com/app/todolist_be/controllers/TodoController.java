@@ -30,4 +30,9 @@ public class TodoController {
     ResponseEntity<?> delete(@PathVariable(name = "id")String id) {
         return ResponseEntity.ok(todoService.delete(id));
     }
+
+    @PutMapping("/update/{id}")
+    ResponseEntity<?> update(@PathVariable(name = "id") String id) {
+        return ResponseEntity.ok(todoService.update(id));
+    }
 }

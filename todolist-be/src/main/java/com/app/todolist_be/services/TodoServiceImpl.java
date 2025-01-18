@@ -4,10 +4,12 @@ import com.app.todolist_be.constants.AppConstant;
 import com.app.todolist_be.dtos.GeneralResponse;
 import com.app.todolist_be.dtos.PaginationRequest;
 import com.app.todolist_be.dtos.TodoDto;
+import com.app.todolist_be.dtos.WaGatewayRequest;
 import com.app.todolist_be.entities.Todo;
 import com.app.todolist_be.handlers.DataExistException;
 import com.app.todolist_be.handlers.NotFoundException;
 import com.app.todolist_be.repositories.TodoRepository;
+import com.app.todolist_be.rests.WaGatewayRest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -30,6 +32,7 @@ import java.util.Optional;
 public class TodoServiceImpl implements TodoService {
 
     private final TodoRepository todoRepository;
+    private final WaGatewayRest waGatewayRest;
 
     @Override
     @Transactional
@@ -87,6 +90,39 @@ public class TodoServiceImpl implements TodoService {
         return GeneralResponse.builder()
                 .responseCode(HttpStatus.OK.value())
                 .responseMessage(AppConstant.Response.SUCCESS_MESSAGE)
+                .build();
+    }
+
+    @Override
+    @Transactional
+    public GeneralResponse<?> update(String id) {
+        Date now = Date.from(LocalDateTime.now().atZone(ZoneId.of("UTC")).toInstant());
+        Optional<Todo> existTodo = todoRepository.findById(id);
+        if (existTodo.isEmpty()) {
+            throw new NotFoundException("Data tidak ditemukan");
+        }
+
+        if (existTodo.get().getStatus().equals(AppConstant.Status.CREATED)) {
+            try {
+                String msg = ("Hai, [").concat(existTodo.get().getWaNumber()).concat("] selamat anda telah menyelesaikan aktifitas *")
+                        .concat(existTodo.get().getTitle()).concat("* dengan baik...");
+                String waNumber = existTodo.get().getWaNumber().replaceFirst("^\\+62", "0");
+                WaGatewayRequest waGatewayRequest = WaGatewayRequest.builder()
+                        .target(waNumber)
+                        .countryCode("62")
+                        .message(msg)
+                        .build();
+                waGatewayRest.sendMessage(waGatewayRequest);
+            } catch (Exception e) {}
+        }
+
+        existTodo.get().setStatus(AppConstant.Status.DONE);
+        existTodo.get().setModifiedDate(now);
+        todoRepository.save(existTodo.get());
+        return GeneralResponse.builder()
+                .responseCode(HttpStatus.OK.value())
+                .responseMessage(AppConstant.Response.SUCCESS_MESSAGE)
+                .data(existTodo.get())
                 .build();
     }
 
