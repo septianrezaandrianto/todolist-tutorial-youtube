@@ -100,7 +100,10 @@ export const TodoTable = ({
   }
 
   const handleOpenFinish = (rowData) => {
-
+    setShowDialog(true)
+    setSelectedRow(rowData)
+    action.current = "Update"
+    generateMessage();
   }
 
   const paginationModel = {page : 0, pageSize : 10}

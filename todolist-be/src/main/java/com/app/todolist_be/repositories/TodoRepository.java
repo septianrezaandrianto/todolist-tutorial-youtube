@@ -15,5 +15,6 @@ public interface TodoRepository extends MongoRepository<Todo, String> {
 
     @Query("{startDate : ?0, endDate : ?1, waNumber : ?2}")
     List<Todo> findByDate(Date startDate, Date endDate, String waNumber);
-    Page<Todo> findByWaNumber(String waNumber, Pageable pageable);
+    @Query("{'waNumber' : ?0 , 'startDate' : {$gte : ?1, $lt : ?2 } }")
+    Page<Todo> findByWaNumber(String waNumber, Date startDate, Date endDate, Pageable pageable);
 }

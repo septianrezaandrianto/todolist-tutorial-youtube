@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
@@ -67,9 +68,13 @@ public class TodoServiceImpl implements TodoService {
 
     @Override
     public GeneralResponse<?> getDataPaging(PaginationRequest paginationRequest) {
+        LocalDate today = LocalDate.now();
+        Date dateStart = Date.from(today.atStartOfDay(ZoneId.of("UTC")).toInstant());
+        Date dateEnd = Date.from(today.plusDays(1).atStartOfDay(ZoneId.of("UTC")).toInstant());
+
         Sort sort = Sort.by(Sort.Order.asc("startDate"));
         Pageable pageable = PageRequest.of(paginationRequest.getPageNumber(), paginationRequest.getPageSize(), sort);
-        Page<Todo> pageResult = todoRepository.findByWaNumber(paginationRequest.getWaNumber(), pageable);
+        Page<Todo> pageResult = todoRepository.findByWaNumber(paginationRequest.getWaNumber(), dateStart, dateEnd, pageable);
         return GeneralResponse.builder()
                 .responseCode(HttpStatus.OK.value())
                 .responseMessage(AppConstant.Response.SUCCESS_MESSAGE)

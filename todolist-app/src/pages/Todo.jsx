@@ -67,6 +67,9 @@ export const Todo = () => {
         } else if (action.current === 'Delete') {
             message.current.title = "Melanjukan Proses Hapus"
             message.current.description = "Apakah anda yakin ingin menghapus aktifitas tersebut?"
+        } else {
+            message.current.title = "Melanjutkan proses Update"
+            message.current.description = "Apakah aktifitas ini telah selesai?"
         }
     }
 
@@ -122,6 +125,8 @@ export const Todo = () => {
             handleAdd()
         } else if (action.current === 'Delete') {
             handleDelete(selectedRow);
+        } else {
+            handleUpdate(selectedRow)
         }
     }
 
@@ -157,7 +162,7 @@ export const Todo = () => {
                 const formattedData = response.data.data.map((item, index) => ({
                     ...item,
                     startTime : dayjs.utc(item.startDate).format('HH:mm'),
-                    endTime : dayjs.utc(item.endTime).format('HH:mm'),
+                    endTime : dayjs.utc(item.endDate).format('HH:mm'),
                     no : index + 1,
                     priority : item.priority === 'High' ? 'Tinggi' : item.priority === 'Medium' ? 'Sedang' : 'Rendah',
                     status : item.status === 'Created' ? 'Dibuat' : 'Selesai'
@@ -189,6 +194,24 @@ export const Todo = () => {
                 setShowSnackbar(true)
                 fetchDataList()
             }, 1000)
+        }
+    }
+
+    const handleUpdate = async(rowData) => {
+        setLoading(true)
+        const { id } = rowData
+        try {
+            await axios.put(`http://localhost:8080/todo/update/${id}`)
+            handleClose();
+            snackbarMessage.current = "Sukses menyelesaikan aktifitas"
+        } catch (error) {
+            console.error('Error update', error)
+        } finally {
+            setTimeout(() => {
+                fetchDataList()
+                setLoading(false)
+                setShowSnackbar(true)
+            }, 1000);
         }
     }
 
