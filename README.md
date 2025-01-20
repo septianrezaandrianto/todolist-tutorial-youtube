@@ -1,6 +1,6 @@
-# Tutorial TodoList :
+# Tutorial membuat website Todo List dengan React JS dan Java Spring Boot
 
-## Tutorial membuat website Todo List dengan React JS dan Java Spring Boot Playlist : https://www.youtube.com/playlist?list=PL6HeF6E40c6_DyLeAPpjenvfYG_U2znR3
+## Playlist : https://www.youtube.com/playlist?list=PL6HeF6E40c6_DyLeAPpjenvfYG_U2znR3
 
 ### [#1 - Overview Project] : https://youtu.be/ELFqArnoSg4
 ### [#2 - Set up Database] : https://youtu.be/6c_Nvou75wU
