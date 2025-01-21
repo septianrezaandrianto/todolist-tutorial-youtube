@@ -34,6 +34,7 @@ public class TodoServiceImpl implements TodoService {
 
     private final TodoRepository todoRepository;
     private final WaGatewayRest waGatewayRest;
+    private final RabbitMQProducerService rabbitMQProducerService;
 
     @Override
     @Transactional
@@ -57,7 +58,7 @@ public class TodoServiceImpl implements TodoService {
                 .createdDate(now)
                 .build();
         Todo savedTodo = todoRepository.save(todo);
-
+        rabbitMQProducerService.sendMessageDelay(savedTodo);
         return GeneralResponse.builder()
                 .responseCode(HttpStatus.OK.value())
                 .responseMessage(AppConstant.Response.SUCCESS_MESSAGE)

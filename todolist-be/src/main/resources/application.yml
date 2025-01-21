@@ -6,7 +6,11 @@ spring:
       host: localhost
       port: 27017
       database : todolist-db
-
+  rabbitmq :
+    host : localhost
+    port : 8001
+    username : guest
+    password : guest
 
 wa :
   token : "Isi dengan token yang kamu dapatkan dari fonnte"
