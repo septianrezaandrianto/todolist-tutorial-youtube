@@ -38,16 +38,16 @@
 ---------------------------------------------------------------
 #### Library : 
 ##### 1. Back End : 
-**a. Validation : https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation/3.4.1 
-b. Swagger : https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui/2.7.0**
+###### a. Validation : https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation/3.4.1 
+###### b. Swagger : https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui/2.7.0
 
 ##### 2.Front End : 
-**a. MUI : yarn add @mui/material @emotion/react @emotion/styled
-b. Axios : yarn add axios
-c. Router : yarn add react-router-dom
-d. Date Picker : yarn add @mui/x-date-pickers
-e. DayJs : yarn add dayjs
-f. Data Grid : yarn add @mui/x-data-grid**
+###### a. MUI : yarn add @mui/material @emotion/react @emotion/styled
+###### b. Axios : yarn add axios
+###### c. Router : yarn add react-router-dom
+###### d. Date Picker : yarn add @mui/x-date-pickers
+###### e. DayJs : yarn add dayjs
+###### f. Data Grid : yarn add @mui/x-data-grid
 ---------------------------------------------------------------
 #### Documentation : 
 ##### 1. MongoDB Compass : https://www.mongodb.com/products/tools/compass
