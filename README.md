@@ -19,3 +19,5 @@
 #### [Part #15 - Integrasi_WhatsApp Gateway] : https://youtu.be/-ORVcG8I9LU
 #### [Part #16 - BE_Membuat API Update] : https://youtu.be/ekWDtxSlJZU
 #### [Part #17 - Integrasi_API Update] : https://youtu.be/TzOae82fURo
+#### [#18 - Set up Delayed Message RabbitMQ] : https://youtu.be/xURpZPUUWd8
+#### [#19 - Integrasi_Delayed Message RabbitMQ] : https://youtu.be/I63V0iF_RN4
