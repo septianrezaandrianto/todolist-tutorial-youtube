@@ -21,3 +21,42 @@
 #### [Part #17 - Integrasi_API Update] : https://youtu.be/TzOae82fURo
 #### [#18 - Set up Delayed Message RabbitMQ] : https://youtu.be/xURpZPUUWd8
 #### [#19 - Integrasi_Delayed Message RabbitMQ] : https://youtu.be/I63V0iF_RN4
+
+-------------------------------------------------------------------------------------------------
+#### Tech Stack
+##### 1. Front End : React JS
+##### 2. Back End : Java Spring Boot
+##### 3. Database : MongoDB
+##### 4. Delay Message : RabbitMQ
+##### 5. WhatsApp Gateway :  Fonnte
+---------------------------------------------------------------
+#### Run Service :
+##### 1. Front End : yarn dev
+##### 2. Back End : mvn spring-boot:run
+##### 3. Swagger UI : http://localhost:8080/swagger-ui/index.html 
+##### 4. Run RabbitMQ : docker run -d --name rabbitmq -p 8001:5672 -p 8002:15672 septianreza/rabbitmq-delayed-message:4.0.5-management
+---------------------------------------------------------------
+#### Library : 
+##### 1. Back End : 
+**a. Validation : https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-validation/3.4.1 
+b. Swagger : https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui/2.7.0**
+
+##### 2.Front End : 
+**a. MUI : yarn add @mui/material @emotion/react @emotion/styled
+b. Axios : yarn add axios
+c. Router : yarn add react-router-dom
+d. Date Picker : yarn add @mui/x-date-pickers
+e. DayJs : yarn add dayjs
+f. Data Grid : yarn add @mui/x-data-grid**
+---------------------------------------------------------------
+#### Documentation : 
+##### 1. MongoDB Compass : https://www.mongodb.com/products/tools/compass
+##### 2. Java JDK 17  : https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html 
+##### 3.  Apache Maven : https://maven.apache.org/download.cgi
+##### 4. Generate Project Java Spring Boot : https://start.spring.io/ 
+##### 5. Node JS : https://nodejs.org/en/download 
+##### 6. Vite Guide : https://vite.dev/guide/ 
+##### 7. Material UI : https://mui.com/material-ui/getting-started/installation/
+##### 8. Axios : https://axios-http.com/docs/intro 
+##### 9. RabbitMQ Docker : https://hub.docker.com/r/septianreza/rabbitmq-delayed-message
+##### 10. Fonnte :  https://fonnte.com/
